@@ -6,35 +6,59 @@ from rest_framework.views import APIView
 from rest_framework.parsers import MultiPartParser, FormParser
 from rest_framework import status
 from rest_framework import serializers
-from .models import Task
+from .models import Product
+from django.contrib.auth.models import User
+from rest_framework_simplejwt.views import TokenObtainPairView
 
-class TaskSerializer(serializers.ModelSerializer):
+from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
+
+
+# login
+class MyTokenObtainPairSerializer(TokenObtainPairSerializer):
+    @classmethod
+    def get_token(cls, user):
+        token = super().get_token(user)
+        # Add custom claims
+        token['username'] = user.username
+        token['isStaff'] = user.is_staff
+        token['isSuper'] = user.is_superuser
+
+        token['isStaffffff'] = "i don't know"
+        # ...
+        return token
+
+
+
+
+class MyTokenObtainPairView(TokenObtainPairView):
+    serializer_class = MyTokenObtainPairSerializer
+
+
+
+
+
+
+
+class ProductSerializer(serializers.ModelSerializer):
     class Meta:
-        model = Task
+        model = Product
         fields = '__all__'
 
-@api_view(['GET'])
-def getImages(request):
-    res=[] #create an empty list
-    for img in Task.objects.all(): #run on every row in the table...
-        res.append({"title":img.title,
-                "description":img.description,
-                "completed":False,
-               "image":str( img.image)
-                }) #append row by to row to res list
-    return Response(res) #return array as json response
 
-class APIViews(APIView):
-    parser_class=(MultiPartParser,FormParser)
-    def post(self,request,*args,**kwargs):
-        api_serializer=TaskSerializer(data=request.data)
-       
-        if api_serializer.is_valid():
-            api_serializer.save()
-            return Response(api_serializer.data,status=status.HTTP_201_CREATED)
-        else:
-            print('error',api_serializer.errors)
-            return Response(api_serializer.errors,status=status.HTTP_400_BAD_REQUEST)
+# register
+@api_view(['POST'])
+def register(request):
+    user = User.objects.create_user(
+                username=request.data['username'],
+                email=request.data['email'],
+                password=request.data['password']
+            )
+    user.is_superuser = False
+    user.is_active = True
+    user.is_staff = False
+    user.save()
+    return Response("new user born")
+
 
 
 @api_view(['GET'])

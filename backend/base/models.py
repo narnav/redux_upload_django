@@ -4,10 +4,10 @@ from django.db import models
 from django.contrib.auth.models import User
 
 
-class Task(models.Model):
+class Product(models.Model):
     user =models.ForeignKey(User,on_delete=models.SET_NULL,null=True)
     image = models.ImageField(null=True,blank=True,default='/placeholder.png')
-    title = models.CharField(max_length=50)
+    price = models.FloatField()
     description = models.CharField(max_length=100)
     completed = models.BooleanField(default=False)
    

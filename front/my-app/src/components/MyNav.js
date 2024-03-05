@@ -8,12 +8,13 @@ const MyNav = () => {
     const dispatch = useDispatch();
     return (
         <div>
-            <Link to="/">Home</Link>{" "}
-            {!logged ? <Link to="/Login">Login</Link> :<button onClick={() => dispatch(logout())}>Logout</button>}
-            <Link to="/register">register</Link>{" "}
-            <Link to="/About">About</Link>{" "}
+            <Link className='btn btn-primary' to="/">Home</Link>{" "}
+            <Link className='btn btn-primary' to="/Products">Products</Link>{" "}
+            {!logged ? <><Link className='btn btn-primary' to="/Login">Login</Link>{" "}</>:<button className='btn btn-danger' onClick={() => dispatch(logout())}>Logout</button>}
+            <Link className='btn btn-primary' to="/register">register</Link>{" "}
+            <Link className='btn btn-primary' to="/About">About</Link>{" "}
             
-           {admin && <div> Admin: <Link to="/Admin">Admin</Link>{" "}</div>}
+           {admin && <div> Admin: <Link className='btn btn-success' to="/Admin">Admin</Link>{" "}</div>}
         </div>
     )
 }

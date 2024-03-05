@@ -7,6 +7,7 @@ urlpatterns = [
     path('', views.index),
     path('login', views.MyTokenObtainPairView.as_view()),
     path('register',views.register),
+    path('products',views.ProductView.as_view()),
     # path('get_all_images', views.getImages),
     # path('upload_image/',views.APIViews.as_view()),
 

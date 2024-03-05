@@ -2,7 +2,6 @@ import React, { useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { addTaskAsync } from './taskSlice';
 export function Task() {
-    const MY_SERVER = "http://127.0.0.1:8000";
     // const count = useSelector(selectCount);
     const dispatch = useDispatch();
     const [incrementAmount, setIncrementAmount] = useState('2');

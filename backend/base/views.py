@@ -28,15 +28,8 @@ class MyTokenObtainPairSerializer(TokenObtainPairSerializer):
         return token
 
 
-
-
 class MyTokenObtainPairView(TokenObtainPairView):
     serializer_class = MyTokenObtainPairSerializer
-
-
-
-
-
 
 
 class ProductSerializer(serializers.ModelSerializer):
@@ -44,7 +37,20 @@ class ProductSerializer(serializers.ModelSerializer):
         model = Product
         fields = '__all__'
 
+class ProductView(APIView):
+    def get(self, request):
+        my_model =Product.objects.all                    ()
+        serializer = ProductSerializer(my_model, many=True)
+        return Response(serializer.data, status=status.HTTP_200_OK)
 
+    def post(self, request):
+        serializer = ProductSerializer(data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response (serializer.data)
+        else:
+            return Response (serializer.errors)
+        
 # register
 @api_view(['POST'])
 def register(request):

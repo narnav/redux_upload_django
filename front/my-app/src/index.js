@@ -11,6 +11,7 @@ import {
 import Login from './components/Login';
 import About from './components/About';
 import Admin from './components/Admin';
+import Prod from './features/products/Prod';
 
 const container = document.getElementById('root');
 const root = createRoot(container);
@@ -26,6 +27,7 @@ root.render(
                         <Route path='/Login' element={<Login></Login>} />
                         <Route path='/About' element={<About/>} />
                         <Route path='/Admin' element={<Admin/>} />
+                        <Route path='/Products' element={<Prod/>} />
                     </Route>
                 </Routes>
             </BrowserRouter>
